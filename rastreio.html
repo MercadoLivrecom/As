@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rastreamento do Pedido</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f2f4f7;
+}
+
+/* CABEÇALHO */
+header{
+    background:#fff;
+    padding:14px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:2px solid #e0e0e0;
+}
+header .left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+header img{
+    height:34px;
+}
+header h1{
+    font-size:16px;
+    margin:0;
+    color:#333;
+}
+
+/* CONTAINER */
+.container{
+    max-width:820px;
+    margin:20px auto;
+    padding:15px;
+}
+
+/* CARD PADRÃO */
+.card{
+    background:#fff;
+    border-radius:10px;
+    padding:18px;
+    margin-bottom:18px;
+    border:1px solid #e0e0e0;
+}
+
+/* STATUS PRINCIPAL */
+.status-main{
+    background:#e3f2fd;
+    border-left:6px solid #1976d2;
+}
+.status-main h2{
+    margin:0 0 6px;
+    color:#1976d2;
+    font-size:18px;
+}
+.status-main p{
+    margin:0;
+    color:#333;
+    font-size:14px;
+}
+
+/* CÓDIGO */
+.tracking-code{
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+.update-time{
+    text-align:center;
+    font-size:13px;
+    color:#555;
+    margin-top:6px;
+}
+
+/* PRODUTO */
+.product{
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+.product img{
+    width:90px;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+.product-info h3{
+    margin:0;
+    font-size:15px;
+}
+.product-info span{
+    display:block;
+    margin-top:6px;
+    font-weight:bold;
+    color:#2e7d32;
+}
+
+/* INFO */
+.info p{
+    margin:6px 0;
+    font-size:14px;
+}
+
+/* TIMELINE */
+.timeline{
+    display:flex;
+    justify-content:space-between;
+    position:relative;
+    margin-top:10px;
+}
+.timeline::before{
+    content:"";
+    position:absolute;
+    top:8px;
+    left:0;
+    right:0;
+    height:4px;
+    background:#ccc;
+    z-index:0;
+}
+.step{
+    flex:1;
+    text-align:center;
+    font-size:13px;
+    color:#999;
+    position:relative;
+    z-index:1;
+}
+.step::before{
+    content:"";
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    background:#ccc;
+    display:block;
+    margin:0 auto 6px;
+}
+.step.active{
+    color:#1976d2;
+    font-weight:bold;
+}
+.step.active::before{
+    background:#1976d2;
+}
+
+/* MENSAGEM */
+.footer-msg{
+    background:#fffde7;
+    border-left:6px solid #fbc02d;
+    padding:15px;
+    font-size:14px;
+    border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="left">
+        <img src="truck.656f1e66.svg">
+        <h1>Rastreamento de Encomenda</h1>
+    </div>
+    <img src="py.webp">
+</header>
+
+<div class="container">
+
+    <!-- STATUS -->
+    <div class="card status-main">
+        <h2 id="statusTitulo">Pedido em preparação</h2>
+        <p id="statusTexto">
+            Seu pedido já foi confirmado e está sendo preparado no estoque.
+        </p>
+    </div>
+
+    <!-- CÓDIGO -->
+    <div class="card">
+        <div class="tracking-code" id="codigo"></div>
+        <div class="update-time">
+            Última atualização em <span id="dataHora"></span>
+        </div>
+    </div>
+
+    <!-- PRODUTO -->
+    <div class="card product">
+        <img id="imagem">
+        <div class="product-info">
+            <h3 id="produto"></h3>
+            <span>Valor total: R$ <span id="valor"></span></span>
+        </div>
+    </div>
+
+    <!-- DADOS -->
+    <div class="card info">
+        <p><strong>Cliente:</strong> <span id="nome"></span></p>
+        <p><strong>CPF:</strong> <span id="cpf"></span></p>
+        <p><strong>Telefone:</strong> <span id="telefone"></span></p>
+        <p><strong>E-mail:</strong> <span id="email"></span></p>
+        <p><strong>Endereço de entrega:</strong> <span id="endereco"></span></p>
+        <p><strong>Prazo estimado:</strong> 14 a 27 dias úteis</p>
+    </div>
+
+    <!-- ETAPAS -->
+    <div class="card">
+        <div class="timeline">
+            <div class="step active" id="s1">Pedido preparado</div>
+            <div class="step" id="s2">Na rota de entrega</div>
+            <div class="step" id="s3">Entregue</div>
+        </div>
+    </div>
+
+    <!-- MENSAGEM -->
+    <div class="footer-msg">
+        Não se preocupe, agora é com a gente.  
+        Estamos agilizando seu pedido para que chegue o mais rápido possível.
+        <br><br>
+        <strong>— Vicente | Central de Logística</strong>
+    </div>
+
+</div>
+
+<script>
+function param(p){
+    return new URLSearchParams(window.location.search).get(p) || "";
+}
+
+/* DADOS */
+codigo.textContent = param("codigo");
+produto.textContent = param("produto");
+valor.textContent = param("valor_total");
+nome.textContent = param("nome");
+cpf.textContent = param("cpf");
+telefone.textContent = param("telefone");
+email.textContent = param("email");
+endereco.textContent = param("endereco");
+imagem.src = param("imagem");
+
+/* STATUS */
+const status = param("status");
+
+if(status === "2"){
+    statusTitulo.textContent = "Pedido saiu para entrega";
+    statusTexto.textContent = "A encomenda já saiu do centro de distribuição.";
+    s2.classList.add("active");
+}
+if(status === "3"){
+    statusTitulo.textContent = "Pedido entregue";
+    statusTexto.textContent = "Entrega realizada com sucesso.";
+    s2.classList.add("active");
+    s3.classList.add("active");
+}
+
+/* DATA */
+const agora = new Date();
+dataHora.textContent =
+    agora.toLocaleDateString("pt-BR") + " às " +
+    agora.toLocaleTimeString("pt-BR");
+</script>
+
+</body>
+</html>

